@@ -1,0 +1,7 @@
+ 1. Bullet angle range - (player angle - pi/9 to player angle + pi/3.5)
+ 2. Make the game player and bullet speed independent of framerate
+ 3. Rotate spaceship and bullets based on direction in which they are moving
+    Hint: use ctx.rotate()
+ 4. Must work on spacebar click
+ 5. Import Orbitron font from google fonts and use it in your game
+ 6. Store the highscore in a cookie
