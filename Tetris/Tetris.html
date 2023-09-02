@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tetris Game</title>
+  <title>Tetris</title>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
   <style>
     
     html, body {
@@ -54,8 +55,37 @@
       right: 10px;
       margin-bottom: 20px; 
     }
+    .controls {
+      background-color: #f0f0f077;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 10px;
+      width: fit-content;
+      position: absolute;
+      right: 10%;
+      top: 7%;
+    }
+    
+    .controls h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      text-decoration: underline;
+    }
+    
+    .controls h5 {
+      margin: 0;
+      font-size: 16px;
+    }
   </style>
 </head>
+<div class="controls">
+  <h3>Controls</h3>
+  <h5>Up Arrow - For rotation</h5>
+  <h5>Left Arrow - For moving blocks to the left</h5>
+  <h5>Right Arrow - For moving blocks to the right</h5>
+  <h5>Down Arrow - For moving blocks to the bottom</h5>
+  <h5>Space bar - For directly bringing the block to the bottom</h5>
+</div>
 <div id="game-container">
   <canvas width="320" height="640" id="game"></canvas>
   <div id="game-info">
@@ -105,7 +135,7 @@ function getNextTetromino() {
 function rotate(matrix) {
   const N = matrix.length - 1;
   const result = matrix.map((row, i) =>
-    row.map((val, j) => matrix[N - j][i])
+    row.map((val, j) => matrix[N - i][j])
   );
 
   return result;
@@ -157,7 +187,7 @@ function placeTetromino() {
 }
 
 function showGameOver() {
-  cancelAnimationFrame(rAF);
+  requestAnimationFrame(rAF);
   gameOver = true;
   context.fillStyle = 'black';
   context.globalAlpha = 0.75;
@@ -243,7 +273,7 @@ let gameOver = false;
 function updateScore(clearedLines) {
   const lineScores = [0, 1]; 
   score += lineScores[clearedLines]; 
-  level = Math.floor(score / 5) + 1; 
+  level = level + 1; 
   updateSpeed(level);
   const scoreElement = document.getElementById('score');
   scoreElement.textContent = `Score: ${score}`;
@@ -310,7 +340,7 @@ function loop() {
 }
 
 function updateSpeed(level) {
-  speed = Math.max(10, 35 - (level * 5));
+  speed = Math.max(10, level + 35 - (3 * 5) - level);
 }
 
 updateSpeed(1);
@@ -327,7 +357,7 @@ document.addEventListener('keydown', function(e) {
       tetromino.col = col;
     }
   }
-  if (e.which === 32) {
+  if (e.which === 48) {
       let row = tetromino.row;
       while (isValidMove(tetromino.matrix, row + 1, tetromino.col)) {
         row++;
